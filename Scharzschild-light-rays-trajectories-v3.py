@@ -32,9 +32,6 @@ u0 = 1/r0
 phi0 = arctan(b/d)
 y0 = (1/(r0**2))*sqrt(1-(1-((2*M)/r0))*((b**2)/(r0**2)))
 
-#angulos em que a função será calculada
-
-
 sol = solve_ivp(F, [0, 100], [u0, y0, phi0], max_step=0.01)
 
 figure()
