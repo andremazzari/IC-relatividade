@@ -9,13 +9,13 @@ O Raio da sombra obtido foi de 6.087205523728037, mas segundo o artigo do Wald d
 O anel vermelhor interior tem raio de 5.2095154249579485, e o valor no artigo do Wald é de 5.20
 """
 
-from numpy import sqrt,arctan,linspace,pi,cos,sin
+from numpy import sqrt,arctan,linspace,pi,cos,sin,zeros,meshgrid,tile
 from scipy.integrate import solve_ivp
-from matplotlib.pyplot import show,plot,xlim,ylim,axis
+import matplotlib.pyplot as plt
 from time import time
 
 M = 1 #Massa do buraco negro
-d = 10*M #Distância do plano à origem
+d = 100*M #Distância do plano à origem
 
 #define a função que representa o lado direito do sistema
 #Y[0]=u , Y[1]=y , Y[2]=phi
@@ -32,6 +32,8 @@ t0=time()
 theta = linspace(0,2*pi,100)
 RaioSombra = 0
 AnelFotons = []
+ObsInt = zeros(len(ListaParametros))
+k=0
 for b in ListaParametros:
     #calcula as condições inicias
     r0 = sqrt(b**2 + d**2)
@@ -40,27 +42,42 @@ for b in ListaParametros:
     y0 = (1/(r0**2))*sqrt(1-(1-((2*M)/r0))*((b**2)/(r0**2)))
     
     #resolve o sistema
-    sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=HorizonteEventos,max_step=0.01)
+    sol = solve_ivp(F, [0, 200], [u0, y0, phi0], events=HorizonteEventos,max_step=0.01)
     
     PhiFinal = sol.y[2][len(sol.y[2])-1]
     n=PhiFinal % (2*pi)
     #verifica se o raio de luz atravessou o horizonte de eventos e a variação angular
     if len(sol.t_events[0]) == 0 and n > (pi/2) and n < (3/2)*pi:
-        plot(b*cos(theta), b*sin(theta), color='red')
+        #plot(b*cos(theta), b*sin(theta), color='red')
+        ObsInt[k] = 1
         if b < 6.08:
             AnelFotons.append(b)
     else:
-        plot(b*cos(theta), b*sin(theta), color='black')
+        #plot(b*cos(theta), b*sin(theta), color='black')
         RaioSombra = b
     
     if b<6.18 and b>6.07:
         print(b, " ; ",PhiFinal," ; ",n," ; ", len(sol.t_events[0]))
+        
+    k+=1
 
-
+'''
 axis("square")
 xlim(-10,10)
 ylim(-10,10)
 show()
+'''
+
+#Agora plota a imagem do buraco negro
+fig, ax = plt.subplots(subplot_kw=dict(projection='polar'))
+azm = linspace(0, 2*pi, 100)
+r, th = meshgrid(ListaParametros, azm)
+z = tile(ObsInt, (r.shape[0], 1))
+
+plt.pcolormesh(th, r, z, cmap='Set1')
+plt.colorbar(label='Observed Intensity')
+
+
 print("raio da sombra:", RaioSombra)
 print("anel de fotons:", AnelFotons)
 print(time()-t0)
