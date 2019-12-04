@@ -74,3 +74,8 @@ Inclination=1.396263402 ; d = 10*M ; ListaParametros = linspace(0,12,160) ; NumA
 6-tempo:2396.746784210205
 Profile 1
 Inclination = -pi/4 ; ListaParametros = linspace(0,10,50) ; NumAngulos=15 ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+IADv3: InclinatedAccreationDiskV2.py
+1- tempo:2483.2456209659576
+Profile 1
+Inclination = pi/4 ; ListaParametros = linspace(0,10,50) ; NumAngulos=15 ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
