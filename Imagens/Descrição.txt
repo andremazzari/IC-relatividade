@@ -1,0 +1,76 @@
+SMLR: imagens geradas pelo programa Schwarzschild-many-light-rays.py
+1 - ListaParametros=[1,2,3,4,5,6,7,8,9], tempo=10.845457792282104
+2 - ListaParametros = linspace(5.19,5.23,10), tempo=18.34484362602234
+3 - ListaParametros = linspace(5.65,6.18,40), tempo=84.46142220497131
+4 - ListaParametros = linspace(5.65,6.18,20), tempo=42.935680627822876
+
+BHS: imagens geradas pelo programa Black_Hole_shadow.py
+1 - ListaParametros = linspace(0,10*sqrt(2),1000), Raio=6.087205523728037, tempo=1753.4349777698517, anel de fotons: 5.223671716873595
+2 - ListaParametros = linspace(0,10*sqrt(2),1000), d=100*M, raio da sombra: 6.016424064149804, tempo=3569.92947101593, anel de fotons:[5.2095154249579485, 5.223671716873595, 6.0305803560654505, 6.0447366479810976, 6.058892939896744, 6.073049231812391]
+
+SPLS: imagens geradas pelo programa Schwarzschild-Point-Light-Source.py
+1 - ListaParametros = [1,2,3,4,5,6,7,7.348], tempo=7.598661661148071
+2 - ListaParametros = linspace(5.19,5.23,5), tempo=9.098412990570068
+
+FOAD: imagens geradas pelo programa FaceOnAccretionDisk.py
+1 - d=100*M
+ListaParametros = linspace(0,15,300)
+def SourceProfile(r):
+    if r<6:
+        x = 0
+    else:
+        x = 27.85*exp(-0.5545*r)
+    return x
+tempo=1167.650022983551
+
+2- d=100*M
+ListaParametros = linspace(0,15,300)
+def SourceProfile(r):
+    if r<6:
+        x = 0
+    else:
+        x = 27.85*exp(-0.5545*r)
+    return x
+tempo=1167.650022983551
+
+IAD: InclinatedAccreationDisk.py
+1 - tempo:1324.9549412727356
+Profile 1
+Inclination=0 ; d = 10*M ; ListaParametros = linspace(0,10,30) ; Angulos = linspace(0,2*pi,30) ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+2- tempo:3005.141171693802
+Profile 1
+Inclination=0 ; d = 10*M ; ListaParametros = linspace(0,10,50) ; Angulos = linspace(0,2*pi,40) ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+3- tempo:3025.067505121231
+Profile 1
+Inclination=0.296705972 ; d = 10*M ; ListaParametros = linspace(0,10,50) ; Angulos = linspace(0,2*pi,40) ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+4- tempo: 39104.14897608757
+Profile 1
+Inclination=0.296705972 ; d = 10*M ; ListaParametros = linspace(0,15,200) ; Angulos = linspace(0,2*pi,100) ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+IADv2: InclinatedAccreationDiskV2.py
+1- tempo:1628.4561529159546
+Profile 1
+Inclination=0 ; d = 10*M ; ListaParametros = linspace(0,10,50) ; NumAngulos=10 ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+2- tempo:2297.580440044403
+Profile 1
+Inclination = pi/4 ; ListaParametros = linspace(0,10,50) ; NumAngulos=15 ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+3- tempo: 31437.452746629715
+Profile 1
+Inclination=0.296705972 ; d = 10*M ; ListaParametros = linspace(0,15,200) ; NumAngulos=40 ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+4- tempo:28202.557052612305
+Profile 2
+Inclination=pi/4 ; d = 10*M ; ListaParametros = linspace(0,12,160) ; NumAngulos=50 ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+5- tempo:28148.959898233414
+Profile 2
+Inclination=1.396263402 ; d = 10*M ; ListaParametros = linspace(0,12,160) ; NumAngulos=50 ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+
+6-tempo:2396.746784210205
+Profile 1
+Inclination = -pi/4 ; ListaParametros = linspace(0,10,50) ; NumAngulos=15 ; sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
