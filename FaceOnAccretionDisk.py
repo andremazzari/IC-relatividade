@@ -4,15 +4,14 @@ Created on Tue Oct  1 14:06:47 2019
 
 @author: Andre
 """
-from numpy import sqrt,arctan,pi,linspace,zeros,exp
+from numpy import sqrt,arctan,pi,linspace,zeros,exp,meshgrid,tile
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 from time import time
 
 
-b = 6.17 #Parametro de impacto
 M = 1 #Massa do buraco negro
-d = 10*M #Distância do plano à origem
+d = 100*M #Distância do plano à origem
 
 #define a função que representa o lado direito do sistema
 #Y[0]=u , Y[1]=y , Y[2]=phi
@@ -43,7 +42,7 @@ def EventHorizon(s, Y):
 EventHorizon.terminal = True #define este evento como terminal
 
 #Lista com os parametros de impacto que serão utilizados
-ListaParametros = linspace(1,10,200)
+ListaParametros = linspace(0,15,300)
 #Array onde será salvo a intensidade observada em cada parametro de impacto
 ObsInt = zeros(len(ListaParametros))
 EmittedInt = zeros(len(ListaParametros))
@@ -58,24 +57,27 @@ for b in ListaParametros:
     y0 = (1/(r0**2))*sqrt(1-(1-((2*M)/r0))*((b**2)/(r0**2)))
     
     #resolve o sistema
-    sol = solve_ivp(F, [0, 100], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
+    sol = solve_ivp(F, [0, 150], [u0, y0, phi0], events=(EventHorizon, TF1, TF2, TF3), dense_output=True, max_step=0.01)
     
     #verifica as intersecções do raio de luz com o disco
     if len(sol.t_events[1])!=0:
         r=1/(sol.sol(sol.t_events[1][0])[0])
         if r<=2*M:
             print("m=1; r=",r,"; b=",b)
-        ObsInt[k] += (sqrt(1-(2*M)/r)**4)*SourceProfile(r)
+        else:
+            ObsInt[k] += (sqrt(1-(2*M)/r)**4)*SourceProfile(r)
     if len(sol.t_events[2])!=0:
         r=1/(sol.sol(sol.t_events[2][0])[0])
         if r<=2*M:
             print("m=2; r=",r,"; b=",b)
-        ObsInt[k] += (sqrt(1-(2*M)/r)**4)*SourceProfile(r)
+        else:
+            ObsInt[k] += (sqrt(1-(2*M)/r)**4)*SourceProfile(r)
     if len(sol.t_events[3])!=0:
         r=1/(sol.sol(sol.t_events[3][0])[0])
         if r<=2*M:
             print("m=3; r=",r,"; b=",b)
-        ObsInt[k] += (sqrt(1-(2*M)/r)**4)*SourceProfile(r)
+        else:
+            ObsInt[k] += (sqrt(1-(2*M)/r)**4)*SourceProfile(r)
     
     EmittedInt[k] = SourceProfile(b)     
     k+=1
@@ -90,5 +92,16 @@ ax.plot(ListaParametros, ObsInt,'-b' , color='blue', label='Observed profile')
 
 ax.axis(xlim=(0,10),ylim=(0,10))
 leg = ax.legend();
+plt.show()
+
+#Agora plota a imagem do buraco negro
+fig, ax = plt.subplots(subplot_kw=dict(projection='polar'))
+azm = linspace(0, 2*pi, 100)
+r, th = meshgrid(ListaParametros, azm)
+z = tile(ObsInt, (r.shape[0], 1))
+
+plt.pcolormesh(th, r, z)
+plt.colorbar(label='Observed Intensity')
+
 
 print(time()-t0)
